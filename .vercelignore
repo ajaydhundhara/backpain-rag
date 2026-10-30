@@ -1,0 +1,5 @@
+.venv
+.env
+data/raw
+data/app.db
+tests

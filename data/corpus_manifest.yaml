@@ -1,0 +1,24 @@
+# The corpus allow-list. Only files listed here, with a matching sha256, are ingested.
+#
+# Workflow: put PDFs / .txt / .md files in data/raw/, run `rag corpus scan`,
+# then fill in title / url / publisher / version by hand -- they appear in citations.
+#
+# Suggested public sources for a back pain corpus (download them yourself, and
+# check each one's licence/terms before redistributing):
+#   - NICE NG59: Low back pain and sciatica in over 16s: assessment and management
+#   - WHO (2023): Guideline for non-surgical management of chronic primary low back pain in adults
+#   - American College of Physicians (2017): Noninvasive treatments for acute,
+#     subacute, and chronic low back pain
+#   - NHS patient information: back pain, sciatica, cauda equina syndrome
+#   - Your national physiotherapy body's back pain guidance
+source: Personal back pain guide (self-help book, OCR'd for personal use)
+documents:
+- doc_id: treat-your-own-back
+  title: Treat Your Own Back (Robin McKenzie, self-help book)
+  filename: treat-your-own-back.txt
+  url: ''
+  publisher: Robin McKenzie
+  version: OCR of personal scan backpain.pdf via tools/ocr_book.py; book pp. 36-37
+    absent from scan
+  published: null
+  sha256: 612516674db32c5c67424623cf4cd95840e64fb7cb29858ee7983a71f4c3ad60

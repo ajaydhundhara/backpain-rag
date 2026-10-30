@@ -1,0 +1,30 @@
+# Secrets and local environment
+.env
+.venv/
+.vercel
+
+# Python / tooling caches
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+.DS_Store
+
+# Local databases
+data/app.db*
+
+# Book-derived content stays OUT of git: the source is a copyrighted book
+# OCR'd for personal use. Everything below regenerates from the PDF:
+#   python tools/ocr_book.py <pdf> data/raw/<name>.txt --skip-front 3
+#   rag corpus scan --rehash && rag ingest && rag index
+data/raw/*
+!data/raw/.gitkeep
+data/ocr_cache/
+data/chunks/*
+!data/chunks/.gitkeep
+data/index/*
+!data/index/.gitkeep
+data/index_manifest.json

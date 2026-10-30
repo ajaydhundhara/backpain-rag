@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Back Pain Help</title>
+<style>
+:root{
+  --bg:#f7f6f3;--card:#ffffff;--fg:#1d1d1b;--muted:#6b6a66;--line:#e3e1dc;--soft:#f0eee9;
+  --accent:#2f6f5e;--accent-soft:#e3efe9;--warn:#9a5b00;--warn-soft:#fbf0dc;--err:#b3261e;--err-soft:#fbe9e7;
+  --ok:#2f6f5e;--skip:#b9b7b1;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#161615;--card:#1f1f1d;--fg:#ecebe7;--muted:#a3a19b;--line:#33322f;--soft:#262624;
+  --accent:#7cc4ad;--accent-soft:#1f3a32;--warn:#f0c674;--warn-soft:#3a2f17;--err:#f2b8b5;--err-soft:#3c1e1c;
+  --ok:#7cc4ad;--skip:#5b5a56;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{border-bottom:1px solid var(--line);background:var(--card)}
+.bar{max-width:880px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px;justify-content:space-between}
+.brand{font-weight:700;letter-spacing:-.01em}
+.brand small{font-weight:400;color:var(--muted);margin-left:8px}
+.who{font-size:.88rem;color:var(--muted);display:flex;gap:10px;align-items:center}
+.who form{margin:0}
+.linkbtn{background:none;border:0;color:var(--accent);cursor:pointer;font:inherit;padding:0}
+main{max-width:880px;margin:0 auto;padding:20px 16px 60px;display:grid;gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+textarea{width:100%;min-height:84px;resize:vertical;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--fg);font:inherit}
+.row{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:10px;flex-wrap:wrap}
+button.primary{padding:10px 20px;border:0;border-radius:9px;background:var(--accent);color:var(--card);font:inherit;font-weight:600;cursor:pointer}
+button.primary:disabled{opacity:.55;cursor:default}
+.quota{font-size:.85rem;color:var(--muted)}
+.quota.low{color:var(--warn)}.quota.out{color:var(--err)}
+.examples{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.chip{font-size:.82rem;border:1px solid var(--line);border-radius:999px;padding:4px 10px;background:var(--soft);color:var(--fg);cursor:pointer}
+.notice{border-radius:10px;padding:12px 14px;font-size:.92rem}
+.notice.warn{background:var(--warn-soft);color:var(--warn)}
+.notice.err{background:var(--err-soft);color:var(--err)}
+.answer p{margin:0 0 .7em}
+.answer.refused{color:var(--muted)}
+.mk{display:inline-block;font-size:.72rem;font-weight:600;padding:0 5px;margin:0 1px;border-radius:5px;background:var(--accent-soft);color:var(--accent);cursor:pointer;vertical-align:1px}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.badge{font-size:.75rem;border-radius:6px;padding:2px 8px;background:var(--soft);color:var(--muted)}
+.badge.warn{background:var(--warn-soft);color:var(--warn)}
+.badge.ok{background:var(--accent-soft);color:var(--accent)}
+.disclaimer{font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);margin-top:14px;padding-top:10px}
+h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 10px;font-weight:600}
+.sources{display:grid;gap:8px}
+.src{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.9rem;transition:background .15s,border-color .15s}
+.src.lit{background:var(--accent-soft);border-color:var(--accent)}
+.src .t{font-weight:600}.src .m{color:var(--muted);font-size:.84rem}
+.pipe{display:grid;gap:2px;font-size:.88rem}
+.st{display:grid;grid-template-columns:16px 150px 1fr;gap:8px;padding:5px 0;align-items:baseline}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;background:var(--skip)}
+.dot.pass{background:var(--ok)}.dot.stop{background:var(--err)}.dot.mid{background:var(--warn)}
+.st .n{font-weight:600}.st .d{color:var(--muted);overflow-wrap:anywhere}
+.st.skip .n{color:var(--skip)}
+details summary{cursor:pointer;color:var(--muted);font-size:.85rem;margin-top:8px}
+pre{white-space:pre-wrap;font-size:.78rem;background:var(--soft);padding:10px;border-radius:8px;overflow:auto;max-height:360px}
+.hist{display:grid;gap:4px}
+.hi{display:flex;justify-content:space-between;gap:8px;padding:6px 8px;border-radius:8px;font-size:.9rem;cursor:pointer}
+.hi:hover{background:var(--soft)}
+.hi .q{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hi .x{color:var(--muted);background:none;border:0;cursor:pointer;font:inherit}
+.muted{color:var(--muted);font-size:.9rem}
+.hidden{display:none!important}
+@media (max-width:560px){.st{grid-template-columns:16px 1fr}.st .d{grid-column:2}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <div class="brand">Back Pain Help<small>answers from your back pain sources, with citations</small></div>
+  <div class="who" id="who"></div>
+</div></header>
+
+<main>
+  <div id="verify" class="notice warn hidden">
+    Confirm your email address to start asking questions.
+    <button class="linkbtn" id="resend">Resend the link</button> <span id="resendMsg"></span>
+  </div>
+
+  <section class="card">
+    <form id="askForm">
+      <textarea id="q" maxlength="1000" placeholder="e.g. How does posture affect low back pain?" required></textarea>
+      <div class="row">
+        <span class="quota" id="quota"></span>
+        <button class="primary" id="askBtn" type="submit">Ask</button>
+      </div>
+      <div class="examples" id="examples"></div>
+    </form>
+  </section>
+
+  <div id="error" class="notice err hidden"></div>
+
+  <section class="card hidden" id="result">
+    <div class="badges" id="badges"></div>
+    <div class="answer" id="answer"></div>
+    <div class="disclaimer" id="disclaimer"></div>
+  </section>
+
+  <section class="card hidden" id="sourcesCard">
+    <h2>Sources</h2>
+    <div class="sources" id="sources"></div>
+  </section>
+
+  <section class="card hidden" id="pipeCard">
+    <h2>Pipeline</h2>
+    <div class="pipe" id="pipe"></div>
+    <details><summary>Full trace</summary><pre id="trace"></pre></details>
+  </section>
+
+  <section class="card hidden" id="histCard">
+    <div class="row" style="margin:0 0 8px"><h2 style="margin:0">Your history</h2>
+      <button class="linkbtn" id="clearHist">Clear all</button></div>
+    <div class="hist" id="hist"></div>
+  </section>
+
+  <section class="card" id="corpusCard">
+    <h2>Knowledge base</h2>
+    <div id="corpus" class="muted">Loading…</div>
+  </section>
+</main>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const EXAMPLES = [
+  "How is the extension in lying exercise performed?",
+  "Why does prolonged sitting cause low back pain?",
+  "What is the centralisation phenomenon?",
+  "What should be done in a sudden attack of acute back pain?",
+];
+let info = null;
+let clearArmed = false;
+
+function setQuota(limit, remaining, resetIn) {
+  const el = $("quota");
+  if (!limit || limit <= 0 || remaining < 0) { el.textContent = ""; return; }
+  const mins = Math.ceil((resetIn || 0) / 60);
+  el.textContent = remaining > 0 ? `${remaining} of ${limit} questions left this hour`
+                                 : `Limit reached — resets in ${mins} min`;
+  el.className = "quota" + (remaining === 0 ? " out" : remaining <= 1 ? " low" : "");
+}
+
+function renderAnswer(text) {
+  const html = esc(text)
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\[((?:C\d+)(?:\s*,\s*C\d+)*)\]/g, (_, ids) =>
+      ids.split(/\s*,\s*/).map(m => `<span class="mk" data-m="${m}">${m}</span>`).join(""));
+  return html.split(/\n{2,}/).map(p => `<p>${p.replace(/\n/g, "<br>")}</p>`).join("");
+}
+
+function stage(name, state, detail) {
+  const cls = {pass: "pass", stop: "stop", mid: "mid"}[state] || "";
+  return `<div class="st ${state === "skip" ? "skip" : ""}"><span class="dot ${cls}"></span>
+    <span class="n">${esc(name)}</span><span class="d">${esc(detail)}</span></div>`;
+}
+
+function renderPipeline(r) {
+  const t = r.trace || {};
+  const out = [];
+  const reached = new Set(t.stages || []);
+  const nr = "not reached";
+  if (t.intent) {
+    const ok = t.intent.label === "in_scope";
+    out.push(stage("Gate 1 · intent", ok ? "pass" : "stop",
+      `${t.intent.label} · ${t.intent.rule ? "rule match — " : ""}${t.intent.reason}`));
+  } else out.push(stage("Gate 1 · intent", "skip", nr));
+  if (reached.has("retrieve") && t.retrieval) {
+    const rt = t.retrieval;
+    const bits = [`${rt.dense_hits} dense + ${rt.lexical_hits} lexical → ${rt.fused_pool} fused`];
+    if (rt.expansions?.length) bits.push(`expanded: ${rt.expansions.join(", ")}`);
+    bits.push(rt.hyde?.used ? `HyDE blended (w=${rt.hyde.query_weight})` : `HyDE off (${rt.hyde?.reason || "n/a"})`);
+    out.push(stage("Retrieve", "pass", bits.join(" · ")));
+  } else out.push(stage("Retrieve", "skip", nr));
+  if (reached.has("rerank") && t.rerank) {
+    out.push(stage("Rerank", "pass", `${t.rerank.scored} scored · top ${(t.rerank.top_scores || []).map(x => x ?? "–").join(", ")}`));
+  } else out.push(stage("Rerank", "skip", nr));
+  if (t.confidence) {
+    const c = t.confidence;
+    out.push(stage("Gate 2 · confidence", c.passed ? "pass" : c.action === "correct" ? "mid" : "stop", c.reason));
+  } else out.push(stage("Gate 2 · confidence", "skip", nr));
+  if (t.corrective) {
+    const k = t.corrective;
+    out.push(stage("Corrective retry", k.improved ? "pass" : "mid",
+      k.ran ? `${k.new_candidates} new candidates · top ${k.top_before} → ${k.top_after}` : k.reason));
+    const c2 = t.confidence_after_correction;
+    if (c2) out.push(stage("Gate 2 · re-judged", c2.passed ? "pass" : "stop", c2.reason));
+  }
+  if (t.generation) {
+    out.push(stage("Generate", t.generation.insufficient_context ? "stop" : "pass",
+      t.generation.insufficient_context ? "model reported insufficient context" : `${t.generation.claims} claims`));
+  } else out.push(stage("Generate", "skip", nr));
+  if (t.output_gate) out.push(stage("Gate 3 · output", t.output_gate.passed ? "pass" : "stop", t.output_gate.detail));
+  else out.push(stage("Gate 3 · output", "skip", nr));
+  $("pipe").innerHTML = out.join("");
+  $("trace").textContent = JSON.stringify(t, null, 2);
+}
+
+function renderSources(citations) {
+  $("sources").innerHTML = (citations || []).map(c => `
+    <div class="src" id="src-${esc(c.marker)}">
+      <div class="t"><span class="mk">${esc(c.marker)}</span> ${esc(c.title)}</div>
+      <div class="m">§ ${esc(c.section)} · p.${esc(c.pages)}${c.rerank_score != null ? ` · relevance ${c.rerank_score}/10` : ""}
+      ${c.source_url ? ` · <a href="${esc(c.source_url)}" target="_blank" rel="noopener">source</a>` : ""}</div>
+    </div>`).join("");
+  $("sourcesCard").classList.toggle("hidden", !(citations || []).length);
+}
+
+function showResponse(r, fromHistory = false) {
+  $("result").classList.remove("hidden");
+  const badges = [];
+  if (r.answered) badges.push(`<span class="badge ok">answered</span>`);
+  else badges.push(`<span class="badge">refused · ${esc(r.refusal_reason)}</span>`);
+  if (r.top_score != null) badges.push(`<span class="badge">top relevance ${r.top_score}/10</span>`);
+  if (r.trace?.cache === "hit") badges.push(`<span class="badge">⚡ served from cache</span>`);
+  if (r.trace?.degraded?.length) badges.push(`<span class="badge warn" title="A model was unreachable, so a stage fell back. This refusal is about the service, not your question.">⚠ degraded: ${esc(r.trace.degraded.join(", "))}</span>`);
+  if (fromHistory) badges.push(`<span class="badge">from your history</span>`);
+  $("badges").innerHTML = badges.join("");
+  $("answer").className = "answer" + (r.answered ? "" : " refused");
+  $("answer").innerHTML = renderAnswer(r.answer);
+  $("disclaimer").textContent = r.disclaimer || info?.disclaimer || "";
+  renderSources(r.citations);
+  if (r.trace && Object.keys(r.trace).length) { $("pipeCard").classList.remove("hidden"); renderPipeline(r); }
+  else $("pipeCard").classList.add("hidden");
+}
+
+document.addEventListener("mouseover", e => {
+  const m = e.target.closest?.(".answer .mk"); document.querySelectorAll(".src.lit").forEach(x => x.classList.remove("lit"));
+  if (m) $("src-" + m.dataset.m)?.classList.add("lit");
+});
+document.addEventListener("click", e => {
+  const m = e.target.closest?.(".answer .mk"); if (m) $("src-" + m.dataset.m)?.scrollIntoView({behavior: "smooth", block: "center"});
+});
+
+async function ask(query) {
+  $("error").classList.add("hidden");
+  $("askBtn").disabled = true; $("askBtn").textContent = "Thinking…";
+  try {
+    const res = await fetch("/api/ask", {method: "POST", headers: {"Content-Type": "application/json"},
+                                         body: JSON.stringify({query})});
+    const lim = res.headers.get("X-RateLimit-Limit");
+    if (lim) setQuota(+lim, +res.headers.get("X-RateLimit-Remaining"), +res.headers.get("X-RateLimit-Reset"));
+    if (res.status === 401) { location.href = "/login"; return; }
+    const body = await res.json().catch(() => ({}));
+    if (res.status === 429) {
+      const mins = Math.ceil((body.retry_after_s || 0) / 60);
+      $("error").className = "notice warn"; $("error").textContent = `${body.detail || "Limit reached."} You can ask again in about ${mins} minute${mins === 1 ? "" : "s"}.`;
+      return;
+    }
+    if (!res.ok) throw new Error(body.detail || `Request failed (${res.status})`);
+    showResponse(body);
+    loadHistory();
+  } catch (err) {
+    $("error").className = "notice err"; $("error").textContent = err.message;
+  } finally {
+    $("askBtn").disabled = false; $("askBtn").textContent = "Ask";
+  }
+}
+
+async function loadHistory() {
+  if (!info?.user) return;
+  const res = await fetch("/api/history?limit=30"); if (!res.ok) return;
+  const {items} = await res.json();
+  $("histCard").classList.toggle("hidden", !items.length);
+  $("hist").innerHTML = items.map(t => `<div class="hi" data-id="${t.id}">
+    <span class="q">${t.answered ? "" : "↩︎ "}${esc(t.query)}</span><button class="x" title="Delete" data-del="${t.id}">✕</button></div>`).join("");
+}
+
+$("hist").addEventListener("click", async e => {
+  const del = e.target.closest("[data-del]");
+  if (del) { e.stopPropagation(); await fetch(`/api/history/${del.dataset.del}`, {method: "DELETE"}); return loadHistory(); }
+  const row = e.target.closest(".hi"); if (!row) return;
+  const res = await fetch(`/api/history/${row.dataset.id}`); if (!res.ok) return;
+  const t = await res.json();
+  $("q").value = t.query;
+  showResponse({...t, disclaimer: "", trace: {}}, true);
+});
+
+$("clearHist").addEventListener("click", async () => {
+  if (!clearArmed) { clearArmed = true; $("clearHist").textContent = "Click again to clear"; setTimeout(() => { clearArmed = false; $("clearHist").textContent = "Clear all"; }, 3000); return; }
+  clearArmed = false; $("clearHist").textContent = "Clear all";
+  await fetch("/api/history", {method: "DELETE"}); loadHistory();
+});
+
+$("askForm").addEventListener("submit", e => { e.preventDefault(); const q = $("q").value.trim(); if (q.length >= 3) ask(q); });
+$("q").addEventListener("keydown", e => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) $("askForm").requestSubmit(); });
+$("examples").innerHTML = EXAMPLES.map(x => `<button type="button" class="chip">${esc(x)}</button>`).join("");
+$("examples").addEventListener("click", e => { const c = e.target.closest(".chip"); if (c) { $("q").value = c.textContent; ask(c.textContent); } });
+
+$("resend").addEventListener("click", async () => {
+  const res = await fetch("/api/resend-verification", {method: "POST"});
+  const body = await res.json().catch(() => ({}));
+  $("resendMsg").textContent = res.ok ? "Sent — check your inbox." : (body.detail || "Could not send.");
+});
+
+async function init() {
+  const res = await fetch("/api/info");
+  if (res.status === 401) { location.href = "/login"; return; }
+  info = await res.json();
+  if (info.user) {
+    $("who").innerHTML = `<span>${esc(info.user.email)}</span><form method="post" action="/logout"><button class="linkbtn">Sign out</button></form>`;
+    if (info.verification_required && !info.user.verified) { $("verify").classList.remove("hidden"); $("askBtn").disabled = true; }
+  }
+  setQuota(info.quota.limit, info.quota.remaining, info.quota.reset_in_s);
+  const c = info.corpus;
+  $("corpus").innerHTML = c
+    ? `<div>${c.documents.length} document${c.documents.length === 1 ? "" : "s"} · ${c.n_chunks} passages · built ${esc(c.built_at)}</div>
+       <ul>${c.documents.map(d => `<li>${esc(d.title)} <span class="muted">(${d.n_chunks})</span></li>`).join("")}</ul>
+       <div class="muted">Answers need a passage scoring ≥ ${info.thresholds.confidence}/10 for relevance.</div>`
+    : `No index yet. Add documents to <code>data/raw/</code>, then run <code>rag corpus scan</code>, <code>rag ingest</code> and <code>rag index</code>.`;
+  loadHistory();
+}
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+[project]
+name = "backpain-rag"
+version = "0.1.0"
+description = "Back Pain Help: a guideline-grounded RAG assistant that cites its sources and knows when not to answer."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "python-multipart>=0.0.9",
+    "httpx>=0.27",
+    "openai>=1.60",
+    "pydantic>=2.8",
+    "pydantic-settings>=2.4",
+    "python-dotenv>=1.0",
+    "numpy>=1.26",
+    "rank-bm25>=0.2.2",
+    "tiktoken>=0.7",
+    "pyyaml>=6.0",
+    "redis>=5.0",
+    "psycopg[binary]>=3.2",
+    "psycopg-pool>=3.2",
+]
+
+[project.optional-dependencies]
+# Only needed to build the index from PDFs, never to answer a question.
+ingest = ["pymupdf>=1.24"]
+# OCR for scanned PDFs (tools/ocr_book.py). Apple Vision: macOS only, offline.
+ocr = ["pymupdf>=1.24", "pillow>=10", "ocrmac>=1.0; sys_platform == 'darwin'"]
+dev = ["pytest>=8.0", "pymupdf>=1.24"]
+
+[project.scripts]
+rag = "backpain_rag.cli:main"
+rag-serve = "backpain_rag.api:main"
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+backpain_rag = ["web/*.html"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

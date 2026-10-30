@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "app.py": {
+      "memory": 1024,
+      "maxDuration": 60,
+      "includeFiles": "{src/**,data/chunks/**,data/index/**,data/calibration.json,data/index_manifest.json}",
+      "excludeFiles": "{tests/**,.venv/**,**/__pycache__/**,data/raw/**,data/app.db}"
+    }
+  },
+  "rewrites": [{ "source": "/(.*)", "destination": "/app.py" }]
+}

@@ -1,0 +1,18 @@
+# Runtime dependencies (used by Vercel). pyproject.toml is the source of truth.
+# The PDF parser is NOT here -- it is only needed to build the index:
+#   pip install -e '.[ingest]'
+fastapi>=0.115
+uvicorn[standard]>=0.30
+python-multipart>=0.0.9
+httpx>=0.27
+openai>=1.60
+pydantic>=2.8
+pydantic-settings>=2.4
+python-dotenv>=1.0
+numpy>=1.26
+rank-bm25>=0.2.2
+tiktoken>=0.7
+pyyaml>=6.0
+redis>=5.0
+psycopg[binary]>=3.2
+psycopg-pool>=3.2
